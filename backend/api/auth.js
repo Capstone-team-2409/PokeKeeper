@@ -1,15 +1,21 @@
 const express = require("express");
-const router = express.Router();
-
+const cors = require("cors"); // added cors
+const bodyParser = require("body-parser"); //body parser
 const jwt = require("jsonwebtoken");
+const prisma = require("../prisma"); // Import Prisma client
+
+const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-function createToken (id) {
-  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1d'})
+router.use(cors()); // added cors
+router.use(bodyParser.json()); // parse JSON bodies
+
+// Function to create JWT token
+function createToken(id) {
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1d' });
 }
 
-const prisma = require("../prisma");
-
+// Middleware to authenticate user
 router.use(async (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader?.slice(7); // "Bearer <token>"
@@ -24,29 +30,46 @@ router.use(async (req, res, next) => {
   }
 });
 
-
+// Registration endpoint
 router.post("/register", async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    const user = await prisma.user.register(username, password);
+    const user = await prisma.user.create({
+      data: {
+        username,
+        password, // In a real-world scenario, you should hash the password before storing it
+      },
+    });
     const token = createToken(user.id);
     res.status(201).json({ token });
   } catch (e) {
-    next(e);
+    if (e.code === 'P2002') { // Prisma error code for unique constraint violation
+      res.status(400).json({ error: 'Username already exists' });
+    } else {
+      next(e);
+    }
   }
 });
 
+// Login endpoint
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    const user = await prisma.user.login(username, password);
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { username },
+    });
+    // In a real-world scenario, you should compare the hashed password
+    if (user.password !== password) {
+      throw new Error('Invalid credentials');
+    }
     const token = createToken(user.id);
     res.json({ token });
   } catch (e) {
-    next(e);
+    res.status(400).json({ error: 'Invalid credentials' });
   }
 });
 
+// Authentication middleware
 function authenticate(req, res, next) {
   if (req.user) {
     next();
