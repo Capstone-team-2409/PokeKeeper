@@ -5,15 +5,22 @@ const SelectedPokemon = ({ teams, setTeams }) => {
   const navigate = useNavigate();
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(""); // To track the chosen team
-  const { id } = useParams();
+  const { name } = useParams();
 
   useEffect(() => {
     const getSinglePokemon = async () => {
       try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
         const singlePokemon = await response.json();
+        // console.log(`singlePokemon.abilities[0].ability.name:`, singlePokemon.abilities[0].ability.name);
+        // figure out a way to choose the pokemon's desired ability
+        //    dropdown menu to choose perhaps????
+        // the `ability` in the schema Pokemon model is a String, so it has to be just one ability chosen
+        const abilitiesArray = singlePokemon.abilities;
+        console.log(`abilitiesArray:`, abilitiesArray);
+        const commonAbility = singlePokemon.abilities[0].ability.name
 
-        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`);
         const speciesInfo = await speciesResponse.json();
 
         const pokeDescription = speciesInfo.flavor_text_entries.find(
@@ -29,6 +36,7 @@ const SelectedPokemon = ({ teams, setTeams }) => {
           id: singlePokemon.id,
           type: singlePokemon.types.map((typeObj) => typeObj.type.name).join(", "),
           description: sanitizedDescription,
+          ability: commonAbility,
         };
 
         setPokemonDetails(detailedPokemon);
@@ -38,7 +46,7 @@ const SelectedPokemon = ({ teams, setTeams }) => {
     };
 
     getSinglePokemon();
-  }, [id]);
+  }, [name]);
 
   const addToTeam = () => {
     console.log(selectedTeam);
@@ -53,6 +61,13 @@ const SelectedPokemon = ({ teams, setTeams }) => {
       alert("This team is full");
       return;
     }
+
+
+
+
+    // connect to backend here with POST request to our API
+
+
 
     setTeams((prevTeams) => ({
       ...prevTeams,
@@ -79,7 +94,7 @@ const SelectedPokemon = ({ teams, setTeams }) => {
       </div>
       <h2>{pokemonDetails.name[0].toUpperCase() + pokemonDetails.name.slice(1)}</h2>
       <p>Type: {pokemonDetails.type.toUpperCase()}</p>
-      <p>PokeDex Entry: {pokemonDetails.description}</p>
+      <p>PokéDex Entry: {pokemonDetails.description}</p>
 
       {/* Team Selection Dropdown */}
       <select value={selectedTeam} onChange={(event) => setSelectedTeam(event.target.value)}>
