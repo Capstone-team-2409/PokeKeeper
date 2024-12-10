@@ -11,6 +11,7 @@ const Home = () => {
           <li><Link to="/register">Register</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/profile">Profile</Link></li>
+          <li><Link to="/Account">Account</Link></li>
         </ul>
       </nav>
       <h1>Welcome to PokeKeeper</h1>

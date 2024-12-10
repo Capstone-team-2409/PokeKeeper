@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios'; // Ensure axios is imported
 import api from './api'; // imports the centralized API
 
-const Register = () => {
+const Register = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State for error messages
@@ -21,10 +22,13 @@ const Register = () => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        alert('Registration successful, please log in.');
-        navigate('/profile');
+        localStorage.setItem('username', username); // Store the username
+        // Set the token in Axios default headers
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        setIsAuthenticated(true); // Set authentication status
+        navigate('/Account'); // Navigate to the protected Account page
       } else {
-       
+        alert('Registration successful, please log in.');
         navigate('/login');
       }
     } catch (error) {
@@ -41,12 +45,12 @@ const Register = () => {
           <li><Link to="/NationalDex">NationalDex</Link></li>
           <li><Link to="/register">Register</Link></li>
           <li><Link to="/login">Login</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
+          <li><Link to="/Account">Account</Link></li>
         </ul>
       </nav>
       <form onSubmit={handleSubmit}>
         <h2>Register</h2>
-        {error && <p style={{ color: `darkred` }}>{error}</p>} {/* Conditionally render error message */}
+        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Conditionally render error message */}
         <input
           type="text"
           placeholder="Username"

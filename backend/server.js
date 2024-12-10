@@ -34,7 +34,8 @@ app.use(express.json());
 app.use(bodyParser.json()); // Parse JSON bodies
 
 app.use(require("./api/auth").router);
-// app.use("/teams", require("./api/products"));
+
+// app.use("/teams", require("./api/products")); // needs to be done for storage of user teams 
 // app.use("/pokemon", require("./api/orders"));
 
 app.use((req, res, next) => {
