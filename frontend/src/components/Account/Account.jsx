@@ -77,14 +77,6 @@ const Account = ({ teamName, setTeamName, setIsAuthenticated }) => {
 
   return (
     <div className={styles.container}>
-      <nav className={styles.nav}>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/NationalDex">NationalDex</Link></li>
-          <li><Link to="/register">Register</Link></li>
-          <li><Link to="/login">Login</Link></li>
-        </ul>
-      </nav>
       <h2>Hello, {username || user.username}</h2>
       <p>Make a New Team</p>
       <form onSubmit={makeTeam} className={styles.form}>
