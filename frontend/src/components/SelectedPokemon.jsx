@@ -88,14 +88,14 @@ const SelectedPokemon = ({ teams, setTeams }) => {
 
   return (
     <section id="selected-pokemon">
-      <div className="poke-images">
-        <img src={pokemonDetails.sprite} alt={pokemonDetails.name} className="page-title"/>
-        {/* <img src={pokemonDetails.shinySprite} alt={`${pokemonDetails.name} shiny`} /> */}
-      </div>
       <section id="selected-pokemon-details">
+      {/* <div className="poke-images">
+      </div> */}
+        <img src={pokemonDetails.sprite} alt={pokemonDetails.name}/>
         <h2>{pokemonDetails.name[0].toUpperCase() + pokemonDetails.name.slice(1)}</h2>
         <p>Type: {pokemonDetails.type.toUpperCase()}</p>
         <p>PokéDex Entry: <div id="poke-entry">{pokemonDetails.description}</div></p>
+      </section>
 
         {/* Team Selection Dropdown */}
         <section id="selected-pokemon-interaction">
@@ -110,7 +110,7 @@ const SelectedPokemon = ({ teams, setTeams }) => {
 
           <button onClick={addToTeam}>Add to Team</button>
           <button onClick={() => navigate(`/NationalDex`)}>Back to National Dex</button>
-        </section>
+
       </section>
     </section>
   );
