@@ -5,7 +5,7 @@ import pokeballImage from '../images/pokeball3.png';
 const SelectedPokemon = ({ teams, setTeams }) => {
   const navigate = useNavigate();
   const [pokemonDetails, setPokemonDetails] = useState(null);
-  const [selectedTeam, setSelectedTeam] = useState(""); // To track the chosen team
+  const [selectedTeam, setSelectedTeam] = useState("");
   const { name } = useParams();
 
   useEffect(() => {
@@ -13,12 +13,7 @@ const SelectedPokemon = ({ teams, setTeams }) => {
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
         const singlePokemon = await response.json();
-        // console.log(`singlePokemon.abilities[0].ability.name:`, singlePokemon.abilities[0].ability.name);
-        // figure out a way to choose the pokemon's desired ability
-        //    dropdown menu to choose perhaps????
-        // the `ability` in the schema Pokemon model is a String, so it has to be just one ability chosen
-        const abilitiesArray = singlePokemon.abilities;
-        console.log(`abilitiesArray:`, abilitiesArray);
+
         const commonAbility = singlePokemon.abilities[0].ability.name
 
         const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`);
@@ -65,8 +60,6 @@ const SelectedPokemon = ({ teams, setTeams }) => {
 
 
 
-
-    // connect to backend here with POST request to our API
 
 
 
