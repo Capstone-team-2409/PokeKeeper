@@ -52,7 +52,7 @@ router.post("/", authenticate, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const pokemon = await prisma.pokemon.findUnique( { where: { id : +id } });
+    const pokemon = await prisma.pokemon.findUniqueOrThrow( { where: { id : +id } });
     if (!pokemon) {
       next({ status: 404, message: `pokemon with id ${id} not found` })
     }

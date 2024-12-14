@@ -65,7 +65,7 @@ Authorization: Bearer {{token1}}
 Content-Type: application/json
 
 ### Get teams for user 1
-GET {{host}}/teams
+GET {{host}}/teams/4
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
@@ -76,5 +76,10 @@ Content-Type: application/json
 
 ### Get specific Pokemon
 GET {{host}}/pokemon/35
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+### telete team for user 1
+Delete {{host}}/teams/4
 Authorization: Bearer {{token1}}
 Content-Type: application/json
