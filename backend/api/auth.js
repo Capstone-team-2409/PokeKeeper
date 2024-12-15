@@ -88,6 +88,7 @@ router.post("/refresh-token", (req, res) => {
     const newToken = createToken(id);
     res.json({ token: newToken });
   } catch (e) {
+    console.error(`Failed to verify refresh token`, e);
     return res.sendStatus(403);
   }
 });
