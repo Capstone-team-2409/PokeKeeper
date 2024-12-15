@@ -48,38 +48,68 @@ Content-Type: application/json
   "name": "test team"
 }
 
-### Add new Pokemon to team
-POST {{host}}/pokemon
+### Add new Pokémon to a team
+POST {{host}}/teams/91/pokemon
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
 {
-  "name": "Charizard",
-  "ability": "blaze",
-  "teamId": 2
+  "pokemon": {
+    "name": "Charizard",
+    "ability": "blaze"
+  }
 }
 
-### Delete Pokemon
+### Delete Pokémon
 DELETE {{host}}/pokemon/39
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
 ### Get teams for user 1
-GET {{host}}/teams/4
+GET {{host}}/teams/TEAM_ID
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
-### Get all Pokemon
+### Get all Pokémon
 GET {{host}}/pokemon
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
-### Get specific Pokemon
+### Get specific Pokémon
 GET {{host}}/pokemon/35
 Authorization: Bearer {{token1}}
 Content-Type: application/json
 
-### telete team for user 1
-Delete {{host}}/teams/4
+### Delete team for user 1
+DELETE {{host}}/teams/TEAM_ID
 Authorization: Bearer {{token1}}
 Content-Type: application/json
+
+### Fetch Teams
+GET {{host}}/teams
+Authorization: Bearer {{token1}}
+
+### Create a Team
+POST {{host}}/teams
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "name": "My New Team"
+}
+
+### Add Pokémon to a Team
+POST {{host}}/teams/91/pokemon
+Content-Type: application/json
+Authorization: Bearer {{token1}}
+
+{
+  "pokemon": {
+    "name": "Pikachu",
+    "ability": "static"
+  }
+}
+
+### Delete a Team
+DELETE {{host}}/teams/TEAM_ID
+Authorization: Bearer {{token1}}
