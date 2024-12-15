@@ -129,7 +129,7 @@ const Account = ({ setIsAuthenticated }) => {
                 <section id="team-members">
                   {team.pokemon.map((pokemon, index) => (
                     <section id="member" key={index} className={styles.member}>
-                      <img src={pokemon.sprite} onClick={() => navigate(`/NationalDex/${pokemon.name}`)} alt={pokemon.name} />
+                      <img src={pokemon.front_default} onClick={() => navigate(`/NationalDex/${pokemon.name}`)} alt={pokemon.name} />
                       <p onClick={() => navigate(`/NationalDex/${pokemon.name}`)}>
                         {pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}
                       </p>
