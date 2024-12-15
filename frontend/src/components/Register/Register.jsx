@@ -12,17 +12,18 @@ const Register = ({ setIsAuthenticated }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!username || !password) {
       alert('Please fill in all fields');
       return;
     }
-
+  
     try {
       const response = await api.post('/register', { username, password });
-
+  
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
         localStorage.setItem('username', username);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         setIsAuthenticated(true);
@@ -35,7 +36,7 @@ const Register = ({ setIsAuthenticated }) => {
       setError(error.response?.data?.error || 'An error occurred during registration.');
     }
   };
-
+  
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>

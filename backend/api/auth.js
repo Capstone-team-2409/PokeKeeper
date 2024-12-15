@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -14,14 +15,14 @@ router.use(cors());
 router.use(bodyParser.json());
 
 function createToken(id) {
-  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' }); 
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' }); // Shorter expiry for access tokens
 }
 
 function createRefreshToken(id) {
-  return jwt.sign({ id }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' }); 
+  return jwt.sign({ id }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' }); // Longer expiry for refresh tokens
 }
 
-
+// Middleware to handle token verification
 router.use(async (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader?.split(' ')[1]; 
@@ -67,19 +68,25 @@ router.post("/login", async (req, res, next) => {
     const user = await prisma.user.findUniqueOrThrow({
       where: { username },
     });
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log('Invalid credentials for user:', username);
       throw new Error('Invalid credentials');
     }
+
     const token = createToken(user.id);
     const refreshToken = createRefreshToken(user.id);
+
+    console.log('Login successful for user:', username);
     res.json({ token, refreshToken });
   } catch (e) {
-    res.status(400).json({ error: 'Invalid credentials' });
+    console.error('Login error for user:', username, e);
+    res.status(401).json({ error: 'Invalid credentials' });
   }
 });
 
-
+// Refresh token endpoint
 router.post("/refresh-token", (req, res) => {
   const { refreshToken } = req.body;
   if (!refreshToken) return res.sendStatus(401);
@@ -88,7 +95,7 @@ router.post("/refresh-token", (req, res) => {
     const newToken = createToken(id);
     res.json({ token: newToken });
   } catch (e) {
-    console.error(`Failed to verify refresh token`, e);
+    console.error('Failed to verify refresh token:', e); // Log error details
     return res.sendStatus(403);
   }
 });
