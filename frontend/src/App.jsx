@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Link, useNavigate } f
 import { useState, useEffect } from "react";
 
 import NationalDex from "./components/NationalDex.jsx";
+import JohtoDex from "./components/JohtoDex.jsx";
+import HoennDex from "./components/HoennDex.jsx";
 import SelectedPokemon from "./components/SelectedPokemon.jsx";
 import Register from "./components/Register/Register.jsx";
 import Login from "./components/Login/Login.jsx";
@@ -75,6 +77,8 @@ const App = () => {
           <Link to="/">Home</Link>
           <Link to="/Account">Account</Link>
           <Link to="/NationalDex">National Dex</Link>
+          <Link to="/JohtoDex">Johto Dex</Link>
+          <Link to="/HoennDex">Hoenn Dex</Link>
           <Link to="/Register">Register</Link>
           <Link to="/Login">Login</Link>
         </nav>
@@ -94,6 +98,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/NationalDex" element={<NationalDex pokemon={pokemon} />} />
+        <Route path="/JohtoDex" element={<JohtoDex/>} />
+        <Route path="/HoennDex" element={<HoennDex/>} />
         <Route path="/NationalDex/:name" element={<SelectedPokemon teams={teams} setTeams={setTeams} />} />
         <Route path="/Register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/Login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
