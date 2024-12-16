@@ -35,6 +35,38 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
     fetchUserData();
   }, [setIsAuthenticated, navigate]);
 
+  const getSinglePokemon = async () => {
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
+      const singlePokemon = await response.json();
+      
+      const commonAbility = singlePokemon.abilities[0].ability.name;
+
+      const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`);
+      const speciesInfo = await speciesResponse.json();
+
+      const pokeDescription = speciesInfo.flavor_text_entries.find(
+        (entry) => entry.language.name === "en"
+      ).flavor_text;
+
+      const sanitizedDescription = pokeDescription.replace(/[\n\r\f]/g, " ");
+
+      const detailedPokemon = {
+        name: singlePokemon.name,
+        sprite: singlePokemon.sprites.front_default,
+        shinySprite: singlePokemon.sprites.front_shiny,
+        id: singlePokemon.id,
+        type: singlePokemon.types.map((typeObj) => typeObj.type.name).join(", "),
+        description: sanitizedDescription,
+        ability: commonAbility,
+      };
+
+      setPokemonDetails(detailedPokemon);
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
+    }
+  };
+
   const teamPost = async (localTeamName) => {
     try {
       await api.post('/teams', { name: localTeamName }, {
@@ -138,9 +170,7 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
             {team.pokemon && team.pokemon.length > 0 ? (
               <section id="team-members">
                 {team.pokemon.map((pokemon, index) => {
-                  const matchedPokemon = pokemon151.find(
-                    (poke) => poke.name.toLowerCase() === pokemon.name.toLowerCase()
-                  );
+                  const matchedPokemon = getSinglePokemon(pokemon.name)
 
                   return (
                     <section id="member" key={index} className={styles.member}>
