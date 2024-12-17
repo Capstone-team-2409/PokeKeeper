@@ -82,10 +82,13 @@ const SelectedPokemon = ({ teams = [], setTeams }) => {
     }
 
     try {
+      console.log(pokemonDetails.sprite)
       const response = await api.post(`/teams/${team.id}/pokemon`, {
+        
         pokemon: {
           name: pokemonDetails.name,
           ability: pokemonDetails.ability,
+          sprite: pokemonDetails.sprite
         },
       });
 

@@ -58,6 +58,7 @@ router.post("/:id/pokemon", authenticate, async (req, res, next) => {
       data: {
         name: pokemon.name,
         ability: pokemon.ability,
+        sprite: pokemon.sprite,
         team: {
           connect: { id: +id }
         }
