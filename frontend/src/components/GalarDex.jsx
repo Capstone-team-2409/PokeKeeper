@@ -3,13 +3,13 @@ import { useEffect, useState } from "react"
 import { useNavigate, Link } from "react-router-dom";
 
 
-const JohtoDex = () => {
+const GalarDex = () => {
   const [pokemon, setPokemon] = useState([]); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const getPokemon = async () => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=151&limit=100`);
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=809&limit=96`);
       const responseJSON = await response.json();
       const pokemon151 = responseJSON.results;
 
@@ -61,4 +61,4 @@ const JohtoDex = () => {
   )
 }
 
-export default JohtoDex
+export default GalarDex

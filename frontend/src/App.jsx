@@ -4,6 +4,12 @@ import { useState, useEffect } from "react";
 import NationalDex from "./components/NationalDex.jsx";
 import JohtoDex from "./components/JohtoDex.jsx";
 import HoennDex from "./components/HoennDex.jsx";
+import SinnohDex from "./components/SinnohDex.jsx";
+import UnovaDex from "./components/UnovaDex.jsx";
+import KalosDex from "./components/KalosDex.jsx";
+import AlolaDex from "./components/AlolaDex.jsx";
+import GalarDex from "./components/GalarDex.jsx";
+import PaldeaDex from "./components/PaldeaDex.jsx";
 import SelectedPokemon from "./components/SelectedPokemon.jsx";
 import Register from "./components/Register/Register.jsx";
 import Login from "./components/Login/Login.jsx";
@@ -79,6 +85,12 @@ const App = () => {
           <Link to="/NationalDex">National Dex</Link>
           <Link to="/JohtoDex">Johto Dex</Link>
           <Link to="/HoennDex">Hoenn Dex</Link>
+          <Link to="/SinnohDex">Sinnoh Dex</Link>
+          <Link to="/UnovaDex">Unova Dex</Link>
+          <Link to="/KalosDex">Kalos Dex</Link>
+          <Link to="/AlolaDex">Alola Dex</Link>
+          <Link to="/GalarDex">Galar Dex</Link>
+          <Link to="/PaldeaDex">Paldea Dex</Link>
           <Link to="/Register">Register</Link>
           <Link to="/Login">Login</Link>
         </nav>
@@ -100,6 +112,12 @@ const App = () => {
         <Route path="/NationalDex" element={<NationalDex pokemon={pokemon} />} />
         <Route path="/JohtoDex" element={<JohtoDex/>} />
         <Route path="/HoennDex" element={<HoennDex/>} />
+        <Route path="/SinnohDex" element={<SinnohDex/>} />
+        <Route path="/UnovaDex" element={<UnovaDex/>} />
+        <Route path="/KalosDex" element={<KalosDex/>} />
+        <Route path="/AlolaDex" element={<AlolaDex/>} />
+        <Route path="/GalarDex" element={<GalarDex/>} />
+        <Route path="/PaldeaDex" element={<PaldeaDex/>} />
         <Route path="/NationalDex/:name" element={<SelectedPokemon teams={teams} setTeams={setTeams} />} />
         <Route path="/Register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/Login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
