@@ -4,13 +4,11 @@ import styles from './Account.module.css';
 import api from '../api';
 
 const Account = ({ setIsAuthenticated, pokemon }) => {
+  const [pokemon, setPokemon] = useState('')
   const [user, setUser] = useState(null);
   const [teams, setTeams] = useState([]);
   const [localTeamName, setLocalTeamName] = useState(''); 
   const navigate = useNavigate();
-  const pokemon151 = pokemon;
-  console.log(pokemon151);
-
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
@@ -35,15 +33,15 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
     fetchUserData();
   }, [setIsAuthenticated, navigate]);
 
-  const getSinglePokemon = async () => {
+  const getSinglePokemon = async (name) => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
+      const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name.split('-')[0]}/`);
+      const speciesInfo = await speciesResponse.json();
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesInfo.id}/`);
       const singlePokemon = await response.json();
-      
+
       const commonAbility = singlePokemon.abilities[0].ability.name;
 
-      const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`);
-      const speciesInfo = await speciesResponse.json();
 
       const pokeDescription = speciesInfo.flavor_text_entries.find(
         (entry) => entry.language.name === "en"
@@ -60,8 +58,9 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
         description: sanitizedDescription,
         ability: commonAbility,
       };
+      setPokemon(detailedPokemon)
+      return pokemon
 
-      setPokemonDetails(detailedPokemon);
     } catch (error) {
       console.error("Error fetching Pokémon data:", error);
     }
@@ -175,8 +174,9 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
                   return (
                     <section id="member" key={index} className={styles.member}>
                       {console.log('Matched Pokémon:', matchedPokemon)}
+                      {console.log('sprite:', matchedPokemon.sprite)}
                       <img 
-                        src={matchedPokemon.sprite} 
+                        src ={matchedPokemon.sprite} 
                         onClick={() => navigate(`/NationalDex/${pokemon.name}`)} 
                         alt={pokemon.name} 
                       />

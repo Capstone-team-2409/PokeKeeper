@@ -12,13 +12,14 @@ const SelectedPokemon = ({ teams = [], setTeams }) => {
   useEffect(() => {
     const getSinglePokemon = async () => {
       try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
+        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name.split('-')[0]}/`);
+        const speciesInfo = await speciesResponse.json();
+        console.log(speciesInfo.id)
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesInfo.id}/`);
         const singlePokemon = await response.json();
         
         const commonAbility = singlePokemon.abilities[0].ability.name;
 
-        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name}/`);
-        const speciesInfo = await speciesResponse.json();
 
         const pokeDescription = speciesInfo.flavor_text_entries.find(
           (entry) => entry.language.name === "en"

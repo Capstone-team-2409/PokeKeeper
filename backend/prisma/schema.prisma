@@ -34,6 +34,7 @@ model Pokemon {
   id       Int      @id @default(autoincrement())
   name     String   
   ability  String
+  sprite   String
   moves    Move[]
   
   team     Team     @relation(fields: [teamId], references: [id])
