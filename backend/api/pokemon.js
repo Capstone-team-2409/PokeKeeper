@@ -26,6 +26,9 @@ router.post("/", authenticate, async (req, res, next) => {
   if (!name) {
     next({ status: 400, message: "Name must be provided" })
   }
+  if (!sprite) {
+    next({ status: 400, message: "Sprite must be provided" })
+  }
   if (!ability) {
     next({ status: 400, message: "This pokemon has no ability" })
   }
@@ -40,6 +43,7 @@ router.post("/", authenticate, async (req, res, next) => {
       data: { 
         name,
         ability,
+        sprite,
         teamId : +teamId
        },
     });

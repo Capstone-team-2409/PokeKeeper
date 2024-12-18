@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Account.module.css';
 import api from '../api';
 
-const Account = ({ setIsAuthenticated, pokemon }) => {
+const Account = ({ setIsAuthenticated }) => {
+  //const [pokemon, setPokemon] = useState('')
   const [user, setUser] = useState(null);
   const [teams, setTeams] = useState([]);
   const [localTeamName, setLocalTeamName] = useState(''); 
   const navigate = useNavigate();
-  const pokemon151 = pokemon;
-  console.log(pokemon151);
-
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
@@ -34,6 +32,39 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
 
     fetchUserData();
   }, [setIsAuthenticated, navigate]);
+
+  // const getSinglePokemon = async (name) => {
+  //   try {
+  //     const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name.split('-')[0]}/`);
+  //     const speciesInfo = await speciesResponse.json();
+  //     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesInfo.id}/`);
+  //     const singlePokemon = await response.json();
+
+  //     const commonAbility = singlePokemon.abilities[0].ability.name;
+
+
+  //     const pokeDescription = speciesInfo.flavor_text_entries.find(
+  //       (entry) => entry.language.name === "en"
+  //     ).flavor_text;
+
+  //     const sanitizedDescription = pokeDescription.replace(/[\n\r\f]/g, " ");
+
+  //     const detailedPokemon = {
+  //       name: singlePokemon.name,
+  //       sprite: singlePokemon.sprites.front_default,
+  //       shinySprite: singlePokemon.sprites.front_shiny,
+  //       id: singlePokemon.id,
+  //       type: singlePokemon.types.map((typeObj) => typeObj.type.name).join(", "),
+  //       description: sanitizedDescription,
+  //       ability: commonAbility,
+  //     };
+  //     setPokemon(detailedPokemon)
+  //     return pokemon
+
+  //   } catch (error) {
+  //     console.error("Error fetching Pokémon data:", error);
+  //   }
+  // };
 
   const teamPost = async (localTeamName) => {
     try {
@@ -138,15 +169,12 @@ const Account = ({ setIsAuthenticated, pokemon }) => {
             {team.pokemon && team.pokemon.length > 0 ? (
               <section id="team-members">
                 {team.pokemon.map((pokemon, index) => {
-                  const matchedPokemon = pokemon151.find(
-                    (poke) => poke.name.toLowerCase() === pokemon.name.toLowerCase()
-                  );
+                  // const matchedPokemon = getSinglePokemon(pokemon.name)
 
                   return (
                     <section id="member" key={index} className={styles.member}>
-                      {console.log('Matched Pokémon:', matchedPokemon)}
                       <img 
-                        src={matchedPokemon.sprite} 
+                        src ={pokemon.sprite} 
                         onClick={() => navigate(`/NationalDex/${pokemon.name}`)} 
                         alt={pokemon.name} 
                       />
